@@ -1,0 +1,39 @@
+{
+    "name": "feelri/core",
+    "version": "1.0.0",
+    "description": "laravel start",
+    "keywords": [
+        "feelri",
+        "utils",
+        "array",
+        "string",
+        "enum",
+        "collection"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "feelyoung",
+            "email": "knowthat@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "illuminate/collections": "*",
+        "illuminate/support": "*",
+        "vlucas/phpdotenv": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Database\\Seeders\\": "src/database/seeders/",
+            "Feelri\\Core\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Feelri\\Core\\Provider"
+            ]
+        }
+    }
+}
