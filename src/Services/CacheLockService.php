@@ -4,7 +4,9 @@ namespace Feelri\Core\Services;
 
 use \Closure;
 use \Exception;
+use Feelri\Core\Traits\StaticTrait;
 use Illuminate\Support\Facades\Redis;
+use \Throwable;
 
 /**
  * Redis 锁
@@ -12,11 +14,19 @@ use Illuminate\Support\Facades\Redis;
  */
 class CacheLockService
 {
+	use StaticTrait;
+
     /**
      * 随机值
      * @var string
      */
     private string $key = 'lock-token';
+
+	/**
+	 * 异常
+	 * @var Throwable
+	 */
+	public Throwable $exception;
 
     /**
      * 设置 key
@@ -64,20 +74,32 @@ class CacheLockService
     }
 
 	/**
-	 * 事务操作
+	 * 抛出异常
+	 *
+	 * @param Throwable|null $exception
+	 * @return static
+	 */
+	public function throw(?Throwable $exception): static
+	{
+		$this->exception = $exception;
+		return $this;
+	}
+
+	/**
+	 * 执行上锁解锁
 	 *
 	 * @param Closure $callback
 	 * @param string  $token
 	 * @return mixed
-	 * @throws Exception
+	 * @throws Throwable
 	 */
     public function transaction(Closure $callback, string $token = '1'): mixed
 	{
-        try {
-            if (!$this->lock($token)) {
-                throw new Exception('您的操作过于频繁，请稍后重试', 10001);
-            }
+		if (!$this->lock($token)) {
+			throw $this->exception ?? new Exception('您的操作过于频繁，请稍后重试', 10001);
+		}
 
+		try {
 			$result = $callback();
         }
 		finally {

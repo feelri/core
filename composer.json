@@ -19,13 +19,17 @@
     ],
     "require": {
         "php": ">=8.1",
-        "illuminate/collections": "*",
-        "illuminate/support": "*",
-        "vlucas/phpdotenv": "*"
+        "laravel/framework": ">=11.0",
+        "vlucas/phpdotenv": "*",
+        "alibabacloud/sdk": "*",
+        "aliyuncs/oss-sdk-php": "*",
+        "tencentcloud/tencentcloud-sdk-php": "*",
+        "qiniu/php-sdk": "*",
+        "huaweicloud/huaweicloud-sdk-php": "*",
+        "w7corp/easywechat": "*"
     },
     "autoload": {
         "psr-4": {
-            "Database\\Seeders\\": "src/database/seeders/",
             "Feelri\\Core\\": "src/"
         }
     },

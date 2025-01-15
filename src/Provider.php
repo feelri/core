@@ -43,7 +43,7 @@ class Provider extends ServiceProvider
 			),
 		]);
 		if (! app()->configurationIsCached()) {
-			$this->mergeConfigFrom(__DIR__.'/config/auth.php', 'auth');
+			$this->mergeConfigFrom(__DIR__.'/../config/auth.php', 'auth');
 		}
     }
 
@@ -55,28 +55,28 @@ class Provider extends ServiceProvider
     {
 		// 配置
 		$this->publishes([
-			__DIR__.'/config/cache' => config_path('cache'),
+			__DIR__.'/../config/cache' => config_path('cache'),
 		], 'feelri.core.config');
 
 		// 路由
-		$this->loadRoutesFrom(__DIR__.'/routes/web-end.php');
+		$this->loadRoutesFrom(__DIR__.'/../routes/web-end.php');
 		$this->publishes([
-			__DIR__.'/routes/admin-api.php' => base_path('routes/admin-api.php'),
-			__DIR__.'/routes/user-api.php' => base_path('routes/user-api.php'),
-			__DIR__.'/routes/api.php' => base_path('routes/api.php'),
+			__DIR__.'/../routes/admin-api.php' => base_path('routes/admin-api.php'),
+			__DIR__.'/../routes/user-api.php' => base_path('routes/user-api.php'),
+			__DIR__.'/../routes/api.php' => base_path('routes/api.php'),
 		], 'feelri.core.route');
 
 		// 数据库迁移
 		$this->publishes([
-			__DIR__.'/database/migrations' => database_path('migrations'),
-			__DIR__.'/database/seeders' => database_path('seeders'),
-			__DIR__.'/database/permission.sql' => database_path('permission.sql'),
-			__DIR__.'/database/district.sql' => database_path('district.sql'),
+			__DIR__.'/../database/migrations' => database_path('migrations'),
+			__DIR__.'/../database/seeders' => database_path('seeders'),
+			__DIR__.'/../database/permission.sql' => database_path('permission.sql'),
+			__DIR__.'/../database/district.sql' => database_path('district.sql'),
 		], 'feelri.core.database');
 
 		// 入口初始化
 		$this->publishes([
-			__DIR__.'/bootstrap' => base_path('bootstrap'),
+			__DIR__.'/../bootstrap' => base_path('bootstrap'),
 		]);
 
 		// 命令

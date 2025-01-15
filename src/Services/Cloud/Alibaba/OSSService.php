@@ -118,7 +118,7 @@ class OSSService extends Alibaba
 	 */
 	public function uploadStringAndCreate(string $object, string $content): mixed
 	{
-		// 保存图片到本地 TODO 无法不保存文件的情况下获取元信息
+		// TODO 保存图片到本地无法不保存文件的情况下获取元信息
 		Storage::disk('uploads')->put($object, $content);
 		$filepath = Storage::disk('uploads')->path($object);
 		$file = new File($filepath);
@@ -145,14 +145,15 @@ class OSSService extends Alibaba
 			$this->uploadString($object, $content);
 
 			DB::commit();
-		} catch (\Exception $e) {
+		}
+		catch (\Exception $e) {
 			DB::rollBack();
-			// 删除文件
-			Storage::disk('uploads')->delete($object);
 			throw $e;
 		}
-		// 删除文件
-		Storage::disk('uploads')->delete($object);
+		finally {
+			// 删除文件
+			Storage::disk('uploads')->delete($object);
+		}
 
 		return $fileModel;
 	}
