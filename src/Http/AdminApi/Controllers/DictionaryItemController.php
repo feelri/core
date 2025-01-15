@@ -3,16 +3,15 @@
 namespace Feelri\Core\Http\AdminApi\Controllers;
 
 use Feelri\Core\Enums\PaginateEnum;
-use Feelri\Core\Models\Dictionary\Dictionary;
+use Feelri\Core\Models\Dictionary\DictionaryItem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 /**
- * 字典
+ * 字典明细
  */
-class DictionaryController extends Controller
+class DictionaryItemController extends Controller
 {
 	/**
 	 * 列表
@@ -22,8 +21,8 @@ class DictionaryController extends Controller
 	 */
 	public function index(Request $request): JsonResponse
 	{
-		$params = $request->only(['limit', 'type', 'parent_id', 'keyword']);
-		$dictionaries = Dictionary::query()->where('type', $params['type'] ?? '');
+		$params = $request->only(['limit', 'dictionary_id', 'dictionary_key', 'parent_id', 'keyword']);
+		$dictionaries = DictionaryItem::query();
 
 		if (!empty($params['type'])) {
 			$dictionaries->where('type', $params['type']);
@@ -31,6 +30,16 @@ class DictionaryController extends Controller
 
 		if (!empty($params['parent_id'])) {
 			$dictionaries->where('parent_id', $params['parent_id']);
+		}
+
+		if (!empty($params['dictionary_id'])) {
+			$dictionaries->where('dictionary_id', $params['dictionary_id']);
+		}
+
+		if (!empty($params['dictionary_key'])) {
+			$dictionaries->whereHasIn('dictionary', function ($query) use ($params) {
+				$query->where('key', $params['dictionary_key']);
+			});
 		}
 
 		if (!empty($params['keyword'])) {
@@ -53,49 +62,45 @@ class DictionaryController extends Controller
 	 */
 	public function store(Request $request): JsonResponse
 	{
-		$params = $request->only(['category_id', 'key', 'name', 'description']);
-		$dictionary = Dictionary::query()->create($params);
-		return $this->response(['id'=>$dictionary]);
+		$params = $request->only(['dictionary_id', 'parent_id', 'key', 'value', 'label']);
+		$dictionaryItem = DictionaryItem::query()->create($params);
+		return $this->response(['id'=>$dictionaryItem]);
 	}
 
 	/**
 	 * 详情
 	 *
-	 * @param Dictionary $dictionary
+	 * @param DictionaryItem $dictionaryItem
 	 * @return JsonResponse
 	 */
-	public function show(Dictionary $dictionary): JsonResponse
+	public function show(DictionaryItem $dictionaryItem): JsonResponse
 	{
-		$dictionary->load(['items']);
-		return $this->response($dictionary);
+		return $this->response($dictionaryItem);
 	}
 
 	/**
 	 * 保存
 	 *
 	 * @param Request $request
-	 * @param Dictionary     $dictionary
+	 * @param DictionaryItem     $dictionaryItem
 	 * @return JsonResponse
 	 */
-	public function update(Request $request, Dictionary $dictionary): JsonResponse
+	public function update(Request $request, DictionaryItem $dictionaryItem): JsonResponse
 	{
-		$params = $request->only(['category_id', 'key', 'name', 'description']);
-		$dictionary->fill($params)->save();
+		$params = $request->only(['dictionary_id', 'parent_id', 'key', 'value', 'label']);
+		$dictionaryItem->fill($params)->save();
 		return $this->success("保存成功");
 	}
 
 	/**
 	 * 删除
 	 *
-	 * @param Dictionary $dictionary
+	 * @param DictionaryItem $dictionaryItem
 	 * @return Response
 	 */
-	public function destroy(Dictionary $dictionary): Response
+	public function destroy(DictionaryItem $dictionaryItem): Response
 	{
-		DB::transaction(function () use ($dictionary) {
-			$dictionary->items()->delete();
-			$dictionary->delete();
-		});
+		$dictionaryItem->delete();
 		return $this->noContent();
 	}
 }

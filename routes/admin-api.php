@@ -4,6 +4,8 @@ use Feelri\Core\Enums\Model\ConfigKeyEnum;
 use Feelri\Core\Http\AdminApi\Controllers\AdminController;
 use Feelri\Core\Http\AdminApi\Controllers\AuthController;
 use Feelri\Core\Http\AdminApi\Controllers\ConfigController;
+use Feelri\Core\Http\AdminApi\Controllers\DictionaryController;
+use Feelri\Core\Http\AdminApi\Controllers\DictionaryItemController;
 use Feelri\Core\Http\AdminApi\Controllers\EnumController;
 use Feelri\Core\Http\AdminApi\Controllers\FileUploadController;
 use Feelri\Core\Http\AdminApi\Controllers\PermissionController;
@@ -103,7 +105,9 @@ Route::put('configs/{key}/detail', [ConfigController::class, 'save'])
 /**
  * 字典
  */
-//Route::apiResource('dictionaries', DictionaryController::class)->only(['index', 'store', 'update', 'destroy']);
+Route::apiResource('dictionary-items', DictionaryItemController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+
+Route::apiResource('dictionaries', DictionaryController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
 
 /**
  * 短信日志

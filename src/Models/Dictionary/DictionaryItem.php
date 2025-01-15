@@ -3,6 +3,7 @@
 namespace Feelri\Core\Models\Dictionary;
 
 use Feelri\Core\Models\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Kalnoy\Nestedset\NodeTrait;
 
 class DictionaryItem extends Model
@@ -24,5 +25,14 @@ class DictionaryItem extends Model
 	public function getParentIdName(): string
 	{
 		return 'parent_id';
+	}
+
+	/**
+	 * 关联字典表
+	 * @return BelongsTo
+	 */
+	public function dictionary(): BelongsTo
+	{
+		return $this->belongsTo(Dictionary::class);
 	}
 }
