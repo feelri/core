@@ -5,6 +5,7 @@ namespace Feelri\Core\Models\Permission;
 use Feelri\Core\Enums\Model\PermissionTypeEnum;
 use Feelri\Core\Models\Model;
 use Feelri\Core\Traits\Model\ModelTrait;
+use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,11 +13,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends Model
 {
-	use ModelTrait, SoftDeletes;
+	use NodeTrait, ModelTrait, SoftDeletes;
 
 	protected $appends = [
 		'type_label', 'permission_code'
 	];
+
+	protected $hidden = ['left', 'right', 'created_at', 'updated_at'];
+
+	public function getLftName(): string
+	{
+		return 'left';
+	}
+
+	public function getRgtName(): string
+	{
+		return 'right';
+	}
+
+	public function getParentIdName(): string
+	{
+		return 'parent_id';
+	}
 
 	/**
 	 * type_label 获取/访问器

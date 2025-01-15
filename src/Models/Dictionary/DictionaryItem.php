@@ -1,13 +1,12 @@
 <?php
 
-namespace Feelri\Core\Models;
+namespace Feelri\Core\Models\Dictionary;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Feelri\Core\Models\Model;
 use Kalnoy\Nestedset\NodeTrait;
 
-class Category extends Model
+class DictionaryItem extends Model
 {
-    use SoftDeletes;
 	use NodeTrait;
 
 	protected $hidden = ['left', 'right', 'created_at', 'updated_at'];

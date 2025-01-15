@@ -26,7 +26,8 @@
         "tencentcloud/tencentcloud-sdk-php": "*",
         "qiniu/php-sdk": "*",
         "huaweicloud/huaweicloud-sdk-php": "*",
-        "w7corp/easywechat": "*"
+        "w7corp/easywechat": "*",
+        "kalnoy/nestedset": "^6.0.4"
     },
     "autoload": {
         "psr-4": {

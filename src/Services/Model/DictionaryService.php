@@ -2,7 +2,7 @@
 
 namespace Feelri\Core\Services\Model;
 
-use Feelri\Core\Models\Dictionary;
+use Feelri\Core\Models\Dictionary\Dictionary;
 use Illuminate\Support\Facades\Cache;
 
 /**

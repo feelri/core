@@ -15,17 +15,16 @@ return new class extends Migration
         Schema::create('dictionary', function (Blueprint $table) {
             $table->id();
             $table->integer('category_id')->nullable()->comment('分类编号：关联 category.id');
-			$table->integer('parent_id')->nullable()->comment('父级编号');
-			$table->string('key', 50)->default('')->comment('键');
-			$table->string('value')->nullable()->comment('值');
-			$table->string('label', 50)->default('')->comment('名称');
+			$table->string('key')->nullable()->comment('唯一值');
+			$table->string('name')->default('')->comment('名称');
+			$table->string('description')->default('')->comment('描述');
 			$table->dateTime('created_at')->nullable()->comment('创建时间');
 			$table->dateTime('updated_at')->nullable()->comment('修改时间');
 
 			$table->unique(['key']);
         });
 
-		DB::unprepared('ALTER TABLE `config` comment "字典"');
+		DB::unprepared('ALTER TABLE `dictionary` comment "字典"');
 	}
 
     /**

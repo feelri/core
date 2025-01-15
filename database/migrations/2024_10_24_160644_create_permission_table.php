@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('permission', function (Blueprint $table) {
             $table->id();
             $table->integer('parent_id')->nullable()->comment('父级编号');
+			$table->integer('left')->comment('区间');
+			$table->integer('right')->comment('区间');
 			$table->tinyInteger('type')->default(1)->comment('类型：1-菜单、2-权限');
 			$table->string('name', 50)->default('')->comment('名称');
 			$table->string('icon', 50)->default('')->comment('icon');
@@ -28,7 +30,9 @@ return new class extends Migration
 			$table->dateTime('created_at')->nullable()->comment('创建时间');
 			$table->dateTime('updated_at')->nullable()->comment('修改时间');
 			$table->dateTime('deleted_at')->nullable()->comment('删除时间');
-        });
+
+			$table->index(['left', 'right']);
+		});
 		DB::unprepared('ALTER TABLE `permission` comment "权限菜单表"');
 	}
 

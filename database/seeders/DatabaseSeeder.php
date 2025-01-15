@@ -27,11 +27,7 @@ class DatabaseSeeder extends Seeder
 			'nickname' => '超级管理员',
 			'password' => Hash::make('123456'),
 		]);
-
 		$admin->roles()->attach([$role->id]);
-
-		// 权限
-		DB::unprepared(file_get_contents(database_path('permission.sql')));
 
 		User::query()->create([
 			'account'  => 'user',
@@ -39,7 +35,16 @@ class DatabaseSeeder extends Seeder
 			'password' => Hash::make('123456'),
 		]);
 
+		// 权限
+		$sql = file_get_contents(database_path('permission.sql'));
+		if (!empty($sql)) {
+			DB::unprepared($sql);
+		}
+
 		// 地区树
-		DB::unprepared(file_get_contents(database_path('district.sql')));
+		$sql = file_get_contents(database_path('district.sql'));
+		if (!empty($sql)) {
+			DB::unprepared($sql);
+		}
 	}
 }

@@ -3,7 +3,7 @@
 namespace Feelri\Core\Http\AdminApi\Controllers;
 
 use Feelri\Core\Enums\PaginateEnum;
-use Feelri\Core\Models\Dictionary;
+use Feelri\Core\Models\Dictionary\Dictionary;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

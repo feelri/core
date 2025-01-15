@@ -15,7 +15,9 @@ return new class extends Migration
         Schema::create('district', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('level')->default(1)->comment('层级');
-            $table->mediumInteger('parent_code')->default(0)->comment('父级行政代码');
+            $table->integer('parent_id')->nullable()->comment('父级编号');
+			$table->integer('left')->comment('区间');
+			$table->integer('right')->comment('区间');
             $table->mediumInteger('area_code')->default(0)->comment('行政代码');
             $table->mediumInteger('zip_code')->default(0)->comment('邮政编码');
             $table->mediumInteger('city_code')->default(0)->comment('区号');
@@ -25,7 +27,9 @@ return new class extends Migration
             $table->string('pinyin', 50)->default('')->comment('拼音');
             $table->decimal('longitude', 10, 6)->default(0)->comment('经度');
             $table->decimal('latitude', 10, 6)->default(0)->comment('纬度');
-        });
+
+			$table->index(['left', 'right']);
+		});
         DB::unprepared('ALTER TABLE `district` comment "中国行政地区表"');
     }
 
