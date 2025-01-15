@@ -2,7 +2,6 @@
 
 use Feelri\Core\Http\AdminApi\Middleware\PermissionMiddleware;
 use Feelri\Core\Http\Api\Middleware\AuthenticateMiddleware;
-use Feelri\Core\Http\Api\Middleware\LocalizationMiddleware;
 use Feelri\Core\Http\Api\Middleware\ThrottleWithRedisMiddleware;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -43,6 +42,6 @@ return function (Middleware $middleware) {
 		/**
 		 * 自定义中间件
 		 */
-		->append(LocalizationMiddleware::class)
+//		->append()
 	;
 };

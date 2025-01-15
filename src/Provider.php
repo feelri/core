@@ -74,6 +74,16 @@ class Provider extends ServiceProvider
 			__DIR__.'/../database/district.sql' => database_path('district.sql'),
 		], 'feelri.core.database');
 
+		// 语言文件
+		$this->publishes([
+			__DIR__.'/../lang' => base_path('lang'),
+		], 'feelri.core.lang');
+
+		// 服务提供者
+		$this->publishes([
+			__DIR__.'/../providers/AppServiceProvider.php.feelri' => app_path('Providers/AppServiceProvider.php'),
+		], 'feelri.core.provider');
+
 		// 入口初始化
 		$this->publishes([
 			__DIR__.'/../bootstrap' => base_path('bootstrap'),

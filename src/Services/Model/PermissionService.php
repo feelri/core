@@ -132,15 +132,8 @@ class PermissionService
 			$data = $result->orderByRaw('`rank` desc, id asc')
 				->get()
 				->append('meta')
+				->toTree()
 				->toArray();
-
-			if ($type === PermissionTypeEnum::Permission) {
-				$data = array_column($data, 'permission_code');
-			}
-			else if (!empty($data)) {
-				$data = ToolService::static()->tree($data, 'id', 'parent_id');
-			}
-
 			$isCache && Cache::set($cacheKey, $data);
 		}
 
