@@ -64,7 +64,7 @@ class OpenSSLTokenService
         [$value, $startTime, $expires] = json_decode($json, true);
 
         if ($expires > 0 && time() > $startTime + $expires) {
-            throw new ResourceException("校验失败");
+            throw new ResourceException(__('messages.verify_failed'));
         }
 
         return $value;

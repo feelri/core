@@ -96,7 +96,7 @@ class CacheLockService
     public function transaction(Closure $callback, string $token = '1'): mixed
 	{
 		if (!$this->lock($token)) {
-			throw $this->exception ?? new Exception('您的操作过于频繁，请稍后重试', 10001);
+			throw $this->exception ?? new Exception(__('messages.operation_too_frequent'), 10001);
 		}
 
 		try {

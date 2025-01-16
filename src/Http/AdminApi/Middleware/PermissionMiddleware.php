@@ -35,7 +35,7 @@ class PermissionMiddleware
 			$permissionCodes = array_column($permissions, 'permission_code');
 			$code = "{$request->route()->uri()}:{$request->method()}";
 			if (!in_array($code, $permissionCodes)) {
-				throw new ForbiddenException(__('messages.permission.not'));
+				throw new ForbiddenException(__('enum.permission.not'));
 			}
 		}
 

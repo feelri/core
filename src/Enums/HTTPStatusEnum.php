@@ -40,18 +40,18 @@ enum HTTPStatusEnum: int
 	public function label(): string
 	{
 		return match ($this) {
-			self::Ok               => __('messages.http_status.ok'),
-			self::Created          => __('messages.http_status.created'),
-			self::Accepted         => __('messages.http_status.accepted'),
-			self::Bad              => __('messages.http_status.bad'),
-			self::Unauthorized     => __('messages.http_status.unauthorized'),
-			self::Payment          => __('messages.http_status.payment'),
-			self::Forbidden        => __('messages.http_status.forbidden'),
-			self::ParamBad         => __('messages.http_status.paramBad'),
-			self::Error            => __('messages.http_status.error'),
-			self::NotFound         => __('messages.http_status.not_found'),
-			self::MethodNotAllowed => __('messages.http_status.method_not_allowed'),
-			self::Unavailable      => __('messages.http_status.unavailable'),
+			self::Ok               => __('enum.http.ok'),
+			self::Created          => __('enum.http.created'),
+			self::Accepted         => __('enum.http.accepted'),
+			self::Bad              => __('enum.http.bad'),
+			self::Unauthorized     => __('enum.http.unauthorized'),
+			self::Payment          => __('enum.http.payment'),
+			self::Forbidden        => __('enum.http.forbidden'),
+			self::ParamBad         => __('enum.http.paramBad'),
+			self::Error            => __('enum.http.error'),
+			self::NotFound         => __('enum.http.not_found'),
+			self::MethodNotAllowed => __('enum.http.method_not_allowed'),
+			self::Unavailable      => __('enum.http.unavailable'),
 		};
 	}
 }

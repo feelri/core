@@ -54,7 +54,7 @@ class ResourceException extends BaseException
          */
         protected string $link = ""
     ) {
-		$message = empty($message) ? __('messages.exception.resource') : $message;
+		$message = empty($message) ? __('exception.resource') : $message;
 		parent::__construct($message, $error, $previous, $status, $info, $link);
     }
 }

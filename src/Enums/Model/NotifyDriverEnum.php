@@ -35,8 +35,8 @@ enum NotifyDriverEnum: string
 	public function label(): string
 	{
 		return match ($this) {
-			self::DingTalk => '钉钉',
-			self::Feishu => '飞书',
+			self::DingTalk => __('enum.notify.ding_talk'),
+			self::Feishu => __('enum.notify.feishu'),
 		};
 	}
 }

@@ -24,7 +24,7 @@ class UploadService implements AsyncUploadInterface
     {
 		$driver = ConfigService::static()->key(ConfigKeyEnum::System)->get('file_upload.driver');
 		if (empty($driver)) {
-			throw new \Exception('未设置上传驱动');
+			throw new \Exception(__('messages.driver_not_set', ['driver'=>__('messages.upload')]));
 		}
 
 		$driver = FileUploadFromEnum::tryFrom($driver)->driverClass();

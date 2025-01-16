@@ -35,7 +35,9 @@ class Feishu extends \App\Services\Cloud\Bytedance\Feishu implements NoticeInter
 		]);
 		$data      = json_decode($response->getBody()->getContents(), true);
 		if (!empty($data['code']) && (int)$data['code'] !== 0) {
-			throw new ErrorException(empty($data['msg']) ? '飞书机器人消息通知失败' : $data['msg']);
+			throw new ErrorException(empty($data['msg'])
+				? __('messages.notify_fail', ['driver'=>__('enum.notify.feishu')])
+				: $data['msg']);
 		}
 
 		return $data;

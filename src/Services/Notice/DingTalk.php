@@ -33,7 +33,9 @@ class DingTalk extends \App\Services\Cloud\Alibaba\DingTalk implements NoticeInt
 		]);
 		$data      = json_decode($response->getBody()->getContents(), true);
 		if (!empty($data['errcode']) && (int) $data['errcode'] == 0) {
-			throw new ErrorException(empty($data['errmsg']) ? '钉钉机器人消息通知失败' : $data['errmsg']);
+			throw new ErrorException(empty($data['errmsg'])
+				? __('messages.notify_fail', ['driver'=>__('enum.notify.ding_talk')])
+				: $data['errmsg']);
 		}
 
 		return $data;

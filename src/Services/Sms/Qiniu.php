@@ -95,7 +95,7 @@ class Qiniu extends \App\Services\Cloud\Qiniu\Qiniu implements SmsInterface
 		]);
 
 		if ($error) {
-			throw new ErrorException($errorData['message'] ?? '短信发送异常');
+			throw new ErrorException($errorData['message'] ?? __('messages.sms_send_abnormal'));
 		}
 
 		return $response;

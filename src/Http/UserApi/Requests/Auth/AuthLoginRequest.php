@@ -28,9 +28,9 @@ class AuthLoginRequest extends BaseRequest
     public function attributes(): array
     {
         return [
-            'account'  => __('validation.attributes.账号'),
-            'password'  => __('validation.attributes.密码'),
-            'verify_token'  => __('validation.attributes.人机验证'),
+            'account'  => __('validation.attributes.account'),
+            'password'  => __('validation.attributes.password'),
+            'verify_token'  => __('validation.attributes.verify_token'),
         ];
     }
 }

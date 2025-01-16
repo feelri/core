@@ -21,8 +21,8 @@ enum CaptchaEnum: string
 	public function label(): string
 	{
 		return match ($this) {
-			self::Captcha => '图形验证码',
-			self::Cloudflare => 'cloudflare人机验证',
+			self::Captcha => __('enum.captcha.captcha'),
+			self::Cloudflare => __('enum.captcha.cloudflare'),
 		};
 	}
 }

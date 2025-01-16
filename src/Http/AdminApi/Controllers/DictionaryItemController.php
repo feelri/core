@@ -89,7 +89,7 @@ class DictionaryItemController extends Controller
 	{
 		$params = $request->only(['dictionary_id', 'parent_id', 'key', 'value', 'label']);
 		$dictionaryItem->fill($params)->save();
-		return $this->success("保存成功");
+		return $this->success(__("response.success_save"));
 	}
 
 	/**

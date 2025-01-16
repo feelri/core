@@ -26,9 +26,9 @@ enum FileUploadFromEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Local => __('messages.file_upload.local'),
-            self::AliYun => __('messages.file_upload.aliyun'),
-            self::QiNiu => __('messages.file_upload.qiniu'),
+            self::Local => __('enum.file_upload.local'),
+            self::AliYun => __('enum.file_upload.aliyun'),
+            self::QiNiu => __('enum.file_upload.qiniu'),
         };
     }
 

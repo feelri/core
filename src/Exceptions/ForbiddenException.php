@@ -54,7 +54,7 @@ class ForbiddenException extends BaseException
          */
         protected string $link = ""
     ) {
-		$message = empty($message) ? __('messages.permission.not') : $message;
+		$message = empty($message) ? __('enum.permission.not') : $message;
 		parent::__construct($message, $error, $previous, $status, $info, $link);
     }
 }

@@ -14,7 +14,7 @@ class Local implements AsyncUploadInterface
 	 */
 	public function credentials(): array
 	{
-		return ['本地上传无需凭证'];
+		return [];
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Local implements AsyncUploadInterface
 			]
 		);
 		if (!$file) {
-			throw new ErrorException("文件写入失败");
+			throw new ErrorException(__('messages.file_write_failed'));
 		}
 
 		return $file;

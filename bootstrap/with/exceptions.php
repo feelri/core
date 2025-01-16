@@ -39,10 +39,10 @@ return function (Exceptions $exceptions) use ($routeConfigs) {
         // 自定义日志内容
         $paramText = json_encode(Request::capture()->all());
 		$errorMessage = $e->getMessage(). "\n" .
-			"【异常类】" . $e::class . "\n" .
-			"【错误文件】{$e->getFile()}:{$e->getLine()}\n" .
-			"【请求参数】{$paramText}\n" .
-			"【错误堆栈】\n{$e->getTraceAsString()} \n";
+			"【".__('exception.class')."】" . $e::class . "\n" .
+			"【".__('exception.file')."】{$e->getFile()}:{$e->getLine()}\n" .
+			"【".__('exception.request_param')."】{$paramText}\n" .
+			"【".__('exception.error_stack')."】\n{$e->getTraceAsString()} \n";
         Log::error($errorMessage);
 
         // webHook 通知

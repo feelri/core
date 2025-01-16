@@ -21,8 +21,8 @@ enum PermissionTypeEnum: int
 	public function label(): string
 	{
 		return match ($this) {
-			self::Menu => __('messages.permission.menu'),
-			self::Permission => __('messages.permission.permission'),
+			self::Menu => __('enum.permission.menu'),
+			self::Permission => __('enum.permission.permission'),
 		};
 	}
 }

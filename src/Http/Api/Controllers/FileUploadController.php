@@ -51,7 +51,7 @@ class FileUploadController extends Controller
 	{
 		$requestFile = $request->file('file');
 		if (!$requestFile) {
-			throw new ResourceException("请选择上传文件");
+			throw new ResourceException(__('messages.please_choose_file'));
 		}
 
 		// 文件驱动

@@ -24,7 +24,7 @@ class CaptchaController extends Controller
 	{
 		$driver = ConfigService::static()->key(ConfigKeyEnum::System)->get('captcha');
 		if ($driver !== 'captcha') {
-			throw new Exception("captcha 驱动未启用");
+			throw new \Exception(__('messages.driver_not_enabled', ['driver'=>__('enum.captcha.captcha')]));
 		}
 
 		$data = $captcha->create(config('captcha.driver'), true);

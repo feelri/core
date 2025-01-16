@@ -54,7 +54,7 @@ class ErrorException extends BaseException
          */
         protected string $link = ""
     ) {
-		$message = empty($message) ? __('messages.exception.error') : $message;
+		$message = empty($message) ? __('exception.error') : $message;
 		parent::__construct($message, $error, $previous, $status, $info, $link);
     }
 }

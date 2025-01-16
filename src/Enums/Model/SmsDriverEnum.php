@@ -27,10 +27,10 @@ enum SmsDriverEnum: string
 	public function label(): string
 	{
 		return match ($this) {
-			self::Alibaba => __('messages.sms.alibaba'),
-			self::Tencent => __('messages.sms.tencent'),
-			self::Huawei  => __('messages.sms.huawei'),
-			self::Qiniu   => __('messages.sms.qiniu'),
+			self::Alibaba => __('enum.sms.alibaba'),
+			self::Tencent => __('enum.sms.tencent'),
+			self::Huawei  => __('enum.sms.huawei'),
+			self::Qiniu   => __('enum.sms.qiniu'),
 		};
 	}
 

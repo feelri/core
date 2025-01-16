@@ -2,7 +2,7 @@
 
 namespace Feelri\Core\Enums\Model;
 
-use App\Enums\CollectTrait;
+use Feelri\Core\Enums\CollectTrait;
 
 /**
  * 分类类型

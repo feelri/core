@@ -4,16 +4,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Pagination Language Lines
+    | 分页语言行
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
+    | 以下语言行由分页器库使用，用于构建简单的分页链接。
+    | 您可以随意更改这些内容，以更好地匹配您的应用程序。
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
+    'previous' => '&laquo; 上一页',
+    'next' => '下一页 &raquo;',
 
 ];

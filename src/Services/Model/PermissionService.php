@@ -51,7 +51,7 @@ class PermissionService
 			'roles.permissions'
 		]);
 		if (empty($admin->roles)) {
-			throw new ForbiddenException("暂无访问权限");
+			throw new ForbiddenException(__("messages.not_access_permission"));
 		}
 
 		$this->admin = $admin;

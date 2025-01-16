@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Qiniu\Auth;
 
-class Qiniu extends \App\Services\Cloud\Qiniu\Qiniu implements AsyncUploadInterface
+class Qiniu extends \Feelri\Core\Services\Cloud\Qiniu\Qiniu implements AsyncUploadInterface
 {
 	/**
 	 * 授权信息
@@ -62,7 +62,7 @@ class Qiniu extends \App\Services\Cloud\Qiniu\Qiniu implements AsyncUploadInterf
 			]
 		);
 		if (!$file) {
-			throw new ErrorException("文件写入失败");
+			throw new ErrorException(__('messages.file_write_failed'));
 		}
 
 		return $file;

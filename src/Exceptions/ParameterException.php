@@ -54,7 +54,7 @@ class ParameterException extends BaseException
          */
         protected string $link = ""
     ) {
-		$message = empty($message) ? __('messages.exception.parameter') : $message;
+		$message = empty($message) ? __('exception.parameter') : $message;
 		parent::__construct($message, $error, $previous, $status, $info, $link);
     }
 }

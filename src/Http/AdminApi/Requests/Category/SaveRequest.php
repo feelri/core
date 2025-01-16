@@ -4,7 +4,7 @@ namespace Feelri\Core\Http\AdminApi\Requests\Category;
 
 use Feelri\Core\Enums\Model\CategoryTypeEnum;
 use Feelri\Core\Http\Api\Requests\BaseRequest;
-use App\Models\Category;
+use Feelri\Core\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class SaveRequest extends BaseRequest

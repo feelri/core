@@ -81,7 +81,7 @@ class DictionaryController extends Controller
 	{
 		$params = $request->only(['category_id', 'key', 'name', 'description']);
 		$dictionary->fill($params)->save();
-		return $this->success("保存成功");
+		return $this->success(__("response.success_save"));
 	}
 
 	/**

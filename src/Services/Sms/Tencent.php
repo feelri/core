@@ -13,7 +13,7 @@ use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Sms\V20210111\Models\SendSmsRequest;
 use TencentCloud\Sms\V20210111\SmsClient;
 
-class Tencent extends \App\Services\Cloud\Tencent\Tencent implements SmsInterface
+class Tencent extends \Feelri\Core\Services\Cloud\Tencent\Tencent implements SmsInterface
 {
 	/**
 	 * 短信签名

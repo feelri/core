@@ -21,8 +21,8 @@ enum SmsStatusEnum: int
 	public function label(): string
 	{
 		return match ($this) {
-			self::Succeed => __('messages.sms.succeed'),
-			self::Failed => __('messages.sms.failed'),
+			self::Succeed => __('enum.sms.succeed'),
+			self::Failed => __('enum.sms.failed'),
 		};
 	}
 }

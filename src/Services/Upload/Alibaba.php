@@ -8,7 +8,7 @@ use Feelri\Core\Models\FileUpload;
 use Feelri\Core\Services\Cloud\Alibaba\AlibabaService;
 use \Exception;
 
-class Alibaba extends \App\Services\Cloud\Alibaba\Alibaba implements AsyncUploadInterface
+class Alibaba extends \Feelri\Core\Services\Cloud\Alibaba\Alibaba implements AsyncUploadInterface
 {
 	public function __construct()
 	{
@@ -65,7 +65,7 @@ class Alibaba extends \App\Services\Cloud\Alibaba\Alibaba implements AsyncUpload
 			]
 		);
 		if (!$file) {
-			throw new ErrorException("文件写入失败");
+			throw new ErrorException(__('messages.file_write_failed'));
 		}
 
 		return $file;

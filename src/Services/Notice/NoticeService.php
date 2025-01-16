@@ -29,7 +29,8 @@ class NoticeService implements NoticeInterface
 	{
 		$driver = ConfigService::static()->key(ConfigKeyEnum::Notice)->get('driver');
 		if (empty($driver)) {
-			throw new Exception('未设置通知驱动');
+			throw new Exception(__('messages.driver_not_set', ['driver'=>__('messages.notify')]));
+
 		}
 		$driver = NotifyDriverEnum::tryFrom($driver)->driverClass();
 		$this->driver = new $driver;
