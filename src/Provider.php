@@ -55,7 +55,7 @@ class Provider extends ServiceProvider
     {
 		// 配置
 		$this->publishes([
-			__DIR__.'/../config/cache' => config_path('cache'),
+			__DIR__.'/../config' => config_path(),
 		], 'feelri.core.config');
 
 		// 路由
