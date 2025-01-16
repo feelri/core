@@ -21,8 +21,8 @@ return [
     ],
     'file_upload' => [
         'local' => 'ローカル',
-        'aliyun' => 'Aliyun',
-        'qiniu' => 'Qiniu',
+        'aliyun' => 'アリババクラウド',
+        'qiniu' => '七牛雲',
     ],
     'notify' => [
         'ding_talk' => 'DingTalkボット',
@@ -35,9 +35,9 @@ return [
         'permission' => '権限',
     ],
     'sms' => [
-        'alibaba' => 'Alibabaクラウド',
-        'tencent' => 'Tencentクラウド',
-        'huawei' => 'Huaweiクラウド',
-        'qiniu' => 'Qiniuクラウド',
+        'alibaba' => 'アリババ',
+        'tencent' => 'テンセント',
+        'huawei' => 'ファーウェイ',
+        'qiniu' => '七牛',
     ],
 ];
