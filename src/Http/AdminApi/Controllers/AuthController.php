@@ -11,8 +11,9 @@ use Feelri\Core\Models\Admin\Admin;
 use Feelri\Core\Services\Model\PermissionService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\NewAccessToken;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 授权
@@ -38,9 +39,12 @@ class AuthController extends Controller
 			throw new ResourceException(__('messages.login.auth_fail'));
 		}
 
-
 		// 生成 token
-		$token = Auth::guard('admin')->login($admin);
+		$token = DB::transaction(function () use ($admin) {
+			$tokenName = 'auth';
+			$admin->tokens()->where('name', $tokenName)->delete();
+			return $admin->createToken($tokenName);
+		});
 		$data  = $this->dataWithToken($token);
 
 		// 记录登录时间
@@ -52,21 +56,24 @@ class AuthController extends Controller
 
 	/**
 	 * 刷新 token
+	 * @param Request $request
 	 * @return JsonResponse
 	 */
-	public function refresh(): JsonResponse
+	public function refresh(Request $request): JsonResponse
 	{
-		$data = $this->dataWithToken(Auth::guard('admin')->refresh());
+		$token = $request->user()->refreshCurrentToken();
+		$data = $this->dataWithToken($token);
 		return $this->response($data);
 	}
 
 	/**
 	 * 当前用户信息
+	 * @param Request $request
 	 * @return JsonResponse
 	 */
-	public function me(): JsonResponse
+	public function me(Request $request): JsonResponse
 	{
-		$admin = Auth::guard('admin')->user();
+		$admin = $request->user();
 		$admin->load(['roles']);
 		return $this->response($admin);
 	}
@@ -80,7 +87,7 @@ class AuthController extends Controller
 	public function updateMe(UpdateMeRequest $request): JsonResponse
 	{
 		$params          = $request->only(['name', 'nickname', 'avatar', 'gender']);
-		$admin           = Auth::guard('admin')->user();
+		$admin           = $request->user();
 		$admin->name     = $params['name'];
 		$admin->nickname = $params['nickname'] ?? '';
 		$admin->avatar   = $params['avatar'] ?? '';
@@ -99,7 +106,7 @@ class AuthController extends Controller
 	public function repass(RepassRequest $request): JsonResponse
 	{
 		$params          = $request->only(['old_password', 'new_password']);
-		$admin           = Auth::guard('admin')->user();
+		$admin           = $request->user();
 		$admin->password = Hash::make($params['new_password']);
 		$admin->save();
 
@@ -115,7 +122,7 @@ class AuthController extends Controller
 	public function updateMobile(Request $request): JsonResponse
 	{
 		$params         = $request->only(['mobile', 'sms_code']);
-		$admin          = Auth::guard('admin')->user();
+		$admin          = $request->user();
 		$admin->account = $params['mobile'];
 		$admin->mobile  = $params['mobile'];
 		$admin->save();
@@ -124,38 +131,40 @@ class AuthController extends Controller
 
 	/**
 	 * 退出登录
+	 * @param Request $request
 	 * @return JsonResponse
 	 */
-	public function logout(): JsonResponse
+	public function logout(Request $request): JsonResponse
 	{
-		Auth::guard('admin')->logout();
+		$request->user()->currentAccessToken()->delete();
 		return $this->response(__('messages.login.out'));
 	}
 
 	/**
 	 * 用户权限
 	 *
+	 * @param Request $request
 	 * @return JsonResponse
 	 * @throws ForbiddenException
 	 */
-	public function permissions(): JsonResponse
+	public function permissions(Request $request): JsonResponse
 	{
-		$admin             = Auth::guard('admin')->user();
+		$admin             = $request->user();
 		$permissionService = new PermissionService();
 		return $this->response($permissionService->from($admin)->getAllPermissions());
 	}
 
 	/**
 	 * 获取 token
-	 * @param string $token
+	 * @param NewAccessToken $token
 	 * @return array
 	 */
-	protected function dataWithToken(string $token): array
+	protected function dataWithToken(NewAccessToken $token): array
 	{
 		return [
-			'access_token' => $token,
+			'access_token' => $token->plainTextToken,
 			'token_type'   => 'bearer',
-			'expires_in'   => Auth::guard('admin')->factory()->getTTL() * 60
+			'expires_at'   => $token->accessToken?->expires_at?->toDateTimeString(),
 		];
 	}
 }

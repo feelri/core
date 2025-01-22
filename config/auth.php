@@ -40,12 +40,12 @@ return [
 
     'guards' => [
         'user'  => [
-            'driver'   => 'jwt',
+            'driver'   => 'sanctum',
             'provider' => 'user',
             'hash'     => true,
         ],
         'admin' => [
-            'driver'   => 'jwt',
+            'driver'   => 'sanctum',
             'provider' => 'admin',
             'hash'     => true,
         ],

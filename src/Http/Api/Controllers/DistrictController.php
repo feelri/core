@@ -21,7 +21,7 @@ class DistrictController extends Controller
 	 */
 	public function index(Request $request): JsonResponse
 	{
-		$params = $request->only(['keyword', 'parent_code']);
+		$params = $request->only(['keyword', 'parent_id']);
 		$districts = District::query();
 
 		if (!empty($params['keyword'])) {
@@ -32,8 +32,8 @@ class DistrictController extends Controller
 			});
 		}
 
-		if ($params['parent_code'] ?? false) {
-			$districts = $districts->where('parent_code', $params['parent_code']);
+		if ($params['parent_id'] ?? false) {
+			$districts = $districts->where('parent_id', $params['parent_id']);
 		}
 
 		$districts = $districts->get();
@@ -52,7 +52,7 @@ class DistrictController extends Controller
 
 		$data = Cache::get($cacheKey);
 		if (empty($data)) {
-			$data = ToolService::static()->tree($districts->toArray(), 'area_code', 'parent_code');
+			$data = ToolService::static()->tree($districts->toArray(), 'area_code', 'parent_id');
 			Cache::set($cacheKey, $data);
 		}
 

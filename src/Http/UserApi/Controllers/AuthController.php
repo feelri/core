@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\NewAccessToken;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -46,8 +47,12 @@ class AuthController extends Controller
         }
 
         // 生成 token
-        $token = Auth::guard('user')->login($user);
-        $data = $this->dataWithToken($token);
+		$token = DB::transaction(function () use ($user) {
+			$tokenName = 'auth';
+			$user->tokens()->where('name', $tokenName)->delete();
+			return $user->createToken($tokenName);
+		});
+		$data  = $this->dataWithToken($token);
         return $this->response($data, __('messages.login.success'));
     }
 
@@ -87,51 +92,60 @@ class AuthController extends Controller
 		}
 
 		// 生成 token
-		$token = Auth::guard('user')->login($user);
+		$token = DB::transaction(function () use ($user) {
+			$tokenName = 'auth';
+			$user->tokens()->where('name', $tokenName)->delete();
+			return $user->createToken($tokenName);
+		});
 		$data = $this->dataWithToken($token);
 		return $this->response($data, __('messages.login.success'));
 	}
 
-    /**
-     * Refresh a token.
-     * @return JsonResponse
-     */
-    public function refresh(): JsonResponse
+	/**
+	 * Refresh a token.
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+    public function refresh(Request $request): JsonResponse
     {
-        $data = $this->dataWithToken(Auth::guard('user')->refresh());
+		$token = $request->user()->refreshCurrentToken();
+		$data = $this->dataWithToken($token);
         return $this->response($data);
     }
 
-    /**
-     * Get the authenticated User.
-     * @return JsonResponse
-     */
-    public function me(): JsonResponse
+	/**
+	 * Get the authenticated User.
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+    public function me(Request $request): JsonResponse
     {
-        return $this->response(request()->user());
+        return $this->response($request->user());
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     * @return JsonResponse
-     */
-    public function logout(): JsonResponse
+	/**
+	 * Log the user out (Invalidate the token).
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+    public function logout(Request $request): JsonResponse
     {
-        Auth::guard('user')->logout();
+		$request->user()->currentAccessToken()->delete();
         return $this->response(__('messages.login.out'));
     }
 
-    /**
-     * Get the token array structure.
-     * @param string $token
-     * @return array
-     */
-    protected function dataWithToken(string $token): array
-    {
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => Auth::guard('user')->factory()->getTTL() * 60
-        ];
-    }
+
+	/**
+	 * 获取 token
+	 * @param NewAccessToken  $token
+	 * @return array
+	 */
+	protected function dataWithToken(NewAccessToken $token): array
+	{
+		return [
+			'access_token' => $token->plainTextToken,
+			'token_type'   => 'bearer',
+			'expires_at'   => $token->accessToken?->expires_at?->toDateTimeString(),
+		];
+	}
 }
