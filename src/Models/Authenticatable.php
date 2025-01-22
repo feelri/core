@@ -50,12 +50,12 @@ class Authenticatable extends User
 	public function createToken(string $name, array $abilities = ['*'], ?DateTimeInterface $expiresAt = null): NewAccessToken
 	{
 		$plainTextToken = $this->generateTokenString();
-
+		$expiration = Config::get('sanctum.expiration');
 		$token = $this->tokens()->create([
 			'name' => $name,
 			'token' => hash('sha256', $plainTextToken),
 			'abilities' => $abilities,
-			'expires_at' => $expiresAt ?? now()->addMinutes(Config::get('sanctum.expiration', 60 * 24 * 30)),
+			'expires_at' => $expiresAt ?? ($expiration ? now()->addMinutes($expiration) : null),
 		]);
 
 		$this->newAccessToken = new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
@@ -71,7 +71,8 @@ class Authenticatable extends User
 	public function refreshCurrentToken(?DateTimeInterface $expiresAt = null): NewAccessToken
 	{
 		$token = $this->currentAccessToken();
-		$token->expires_at = $expiresAt ?? now()->addMinutes(Config::get('sanctum.expiration', 60 * 24 * 30));
+		$expiration = Config::get('sanctum.expiration');
+		$token->expires_at = $expiresAt ?? ($expiration ? now()->addMinutes($expiration) : null);
 		$token->save();
 		$plainTextToken = $this->generateTokenString();
 		$this->newAccessToken = new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
